@@ -1,26 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useSelector, useDispatch } from 'react-redux';
 
-function App() {
+const Name = () => {
+  const name = useSelector(state => state.nameReducer.name);
+
+  const dispatch = useDispatch();
+
+  const handleNameChange = (e) => {
+    dispatch({
+      type: 'UPDATE_NAME',
+      payload: e.target.value,
+    })
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div>Name: {name}</div>
+      <input placeholder='your name here' onChange={handleNameChange}></input>
+    </>
   );
-}
+};
+
+const App = () => {
+  const count = useSelector(state => state.countReducer.count);
+
+  const dispatch = useDispatch();
+  const incrementCounter = () => dispatch({ type: 'INCREMENT_COUNTER' });
+  const decrementCounter = () => dispatch({ type: 'DECREMENT_COUNTER' });
+
+  return (
+    <>
+      <div>
+        Counter: {count}
+      </div>
+      <button onClick={decrementCounter}>-</button>
+      <button onClick={incrementCounter}>+</button>
+      <Name />
+    </>
+  );
+};
 
 export default App;
